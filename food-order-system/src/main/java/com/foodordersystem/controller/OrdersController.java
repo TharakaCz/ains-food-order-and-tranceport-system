@@ -5,6 +5,8 @@
  */
 package com.foodordersystem.controller;
 
+import java.util.Date;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -75,6 +77,16 @@ public class OrdersController {
 	public ResponseEntity<Object>getAllOrders(){
 		try {
 			return new ResponseEntity<Object>(ordersService.getAllOrders(),HttpStatus.OK);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new ResponseEntity<Object>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+	
+	@GetMapping(value="/getAllOrdersDate")
+	public ResponseEntity<Object>getAllOrdersByDate(@PathVariable("date")Date date){
+		try {
+			return new ResponseEntity<Object>(ordersService.getAllOrdersByDate(date),HttpStatus.OK);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return new ResponseEntity<Object>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);

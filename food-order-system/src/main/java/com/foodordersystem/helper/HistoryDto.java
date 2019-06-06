@@ -17,6 +17,7 @@ public class HistoryDto {
 	private String historyID;
 	private Date date;
 	private String time;
+	private String departmentName;
 	private String historyType;
 	
 	
@@ -56,6 +57,14 @@ public class HistoryDto {
 
 	public void setHistoryType(String historyType) {
 		this.historyType = historyType;
+	}
+
+	public String getDepartmentName() {
+		return departmentName;
+	}
+
+	public void setDepartmentName(String departmentName) {
+		this.departmentName = departmentName;
 	}
 	
 	

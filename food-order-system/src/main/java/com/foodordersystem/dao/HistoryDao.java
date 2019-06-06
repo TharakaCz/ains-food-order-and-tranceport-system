@@ -22,4 +22,7 @@ public interface HistoryDao extends CrudRepository<History, String>{
 	List<History>findAllByStatus(String status);
 	
 	List<History>findAllByDateAndStatusOrderByDateDesc(Date date,String status);
+	
+	List<History>findAllByDepartmentNameAndStatusOrderByDateDesc(String departmentName,String status);
+	
 }

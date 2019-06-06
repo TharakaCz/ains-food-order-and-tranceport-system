@@ -55,7 +55,7 @@ public class TranceportServiceImpl implements TranceportService{
 		History history = new History();
 		
 		tranceport.setTranceportID(UUID.randomUUID().toString());
-		tranceport.setDepartmant(tranceportDto.getTranceportID());
+		tranceport.setDepartmant(tranceportDto.getDepartmant());
 		tranceport.setStatus(AppConstent.ACTIVE);
 		
 		tranceport.setDate(new Date());
@@ -69,7 +69,7 @@ public class TranceportServiceImpl implements TranceportService{
 		history.setHistoryType(AppConstent.HISTORY_TYPE_TRANCEPORT);
 		history.setTime(formattedDate);
 		history.setStatus(AppConstent.ACTIVE);
-		
+		history.setDepartmentName(tranceportDto.getDepartmant());
 		tranceport.setHistory(historyDao.save(history));
 		
 		tranceportDao.save(tranceport);
@@ -124,7 +124,7 @@ public class TranceportServiceImpl implements TranceportService{
 		
 		history.setDate(new Date());
 		history.setTime(formattedDate);
-		
+		history.setDepartmentName(tranceportDto.getDepartmant());
 		tranceport.setHistory(historyDao.save(history));
 		
 		tranceportDao.save(tranceport);
@@ -173,6 +173,7 @@ public class TranceportServiceImpl implements TranceportService{
 		historyDto.setHistoryID(history.getHistoryID());
 		historyDto.setHistoryType(history.getHistoryType());
 		historyDto.setTime(history.getTime());
+		historyDto.setDepartmentName(history.getDepartmentName());
 		
 		tranceportDto.setDate(tranceport.getDate());
 		tranceportDto.setDepartmant(tranceport.getDepartmant());

@@ -5,6 +5,7 @@
  */
 package com.foodordersystem.service;
 
+import java.util.Date;
 import java.util.List;
 
 import com.foodordersystem.helper.OrdersDto;
@@ -24,4 +25,6 @@ public interface OrdersService {
 	public OrdersDto search(String orderID)throws Exception;
 	
 	public List<OrdersDto> getAllOrders()throws Exception;
+	
+	public List<OrdersDto>getAllOrdersByDate(Date date)throws Exception;
 }

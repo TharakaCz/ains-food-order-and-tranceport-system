@@ -21,4 +21,6 @@ public interface HistoryService {
 	public List<HistoryDto> getAllHistory()throws Exception;
 	
 	public List<HistoryDto> searchHistory(Date date)throws Exception;
+	
+	List<HistoryDto>getAllHistoryDepartment(String departmentName)throws Exception;
 }

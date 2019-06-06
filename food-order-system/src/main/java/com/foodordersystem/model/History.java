@@ -26,6 +26,7 @@ public class History {
 	private String time;
 	private String status;
 	private String historyType;
+	private String departmentName;
 	private List<Tranceport>tranceports;
 	private List<Orders>orders;
 	
@@ -97,6 +98,15 @@ public class History {
 
 	public void setOrders(List<Orders> orders) {
 		this.orders = orders;
+	}
+
+	@Column(name="DEPNE",length=50,nullable=false)
+	public String getDepartmentName() {
+		return departmentName;
+	}
+
+	public void setDepartmentName(String departmentName) {
+		this.departmentName = departmentName;
 	}
 	
 	

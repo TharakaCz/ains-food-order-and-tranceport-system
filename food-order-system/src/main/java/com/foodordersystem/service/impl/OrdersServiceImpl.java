@@ -77,7 +77,7 @@ public class OrdersServiceImpl implements OrdersService{
 		history.setHistoryType(AppConstent.HISTORY_TYPE_ORDER);
 		history.setStatus(AppConstent.ACTIVE);
 		history.setTime(formattedDate);
-		
+		history.setDepartmentName(ordersDto.getDepartment());
 		
 		orders.setHistory(historyDao.save(history));
 		ordersDao.save(orders);
@@ -128,7 +128,7 @@ public class OrdersServiceImpl implements OrdersService{
 		
 		history.setDate(new Date());
 		history.setTime(formattedDate);
-	
+		history.setDepartmentName(ordersDto.getDepartment());
 		orders.setHistory(historyDao.save(history));
 		
 		ordersDao.save(orders);
@@ -251,6 +251,7 @@ public class OrdersServiceImpl implements OrdersService{
 		historyDto.setDate(history.getDate());
 		historyDto.setHistoryType(history.getHistoryType());
 		historyDto.setTime(history.getTime());
+		historyDto.setDepartmentName(history.getDepartmentName());
 		
 		orderDetails.forEach(each->{
 			try {
@@ -286,6 +287,26 @@ public class OrdersServiceImpl implements OrdersService{
 		orderDetailsDto.setFoodDto(foodDto);
 		
 		return orderDetailsDto;
+	}
+
+
+	/* (non-Javadoc)
+	 * @see com.foodordersystem.service.OrdersService#getAllOrdersByDate(java.util.Date)
+	 */
+	@Override
+	public List<OrdersDto> getAllOrdersByDate(Date date) throws Exception {
+		
+		List<Orders>orders = ordersDao.findAllByStatusAndDateOrderByDateDesc(AppConstent.ACTIVE, date);
+		ArrayList<OrdersDto>ordersDtos = new ArrayList<>();
+		
+		orders.forEach(each->{
+			try {
+				ordersDtos.add(getOrders(each));
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		});
+		return ordersDtos;
 	}
 }
 

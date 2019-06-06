@@ -13,8 +13,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.foodordersystem.dao.HistoryDao;
+import com.foodordersystem.dao.OrderDetailsDao;
+import com.foodordersystem.dao.OrdersDao;
 import com.foodordersystem.helper.HistoryDto;
 import com.foodordersystem.model.History;
+import com.foodordersystem.model.OrderDetails;
+import com.foodordersystem.model.Orders;
 import com.foodordersystem.service.HistoryService;
 import com.foodordersystem.utill.AppConstent;
 
@@ -27,6 +31,12 @@ public class HistoryServiceImpl implements HistoryService{
 	@Autowired
 	private HistoryDao historyDao;
 	
+	@Autowired
+	private OrdersDao ordersDao;
+	
+	@Autowired
+	private OrderDetailsDao orderDetailsDao;
+	
 	/* (non-Javadoc)
 	 * @see com.foodordersystem.service.HistoryService#deleteHistory(java.lang.String)
 	 */
@@ -34,11 +44,19 @@ public class HistoryServiceImpl implements HistoryService{
 	public String deleteHistory(String historyID) throws Exception {
 		
 		History history = historyDao.findOneByHistoryID(historyID);
+		Orders orders = ordersDao.findOneByHistory(history);
+		List<OrderDetails> orderDetails = orderDetailsDao.findAllByOrders(orders);
 		
+		orders.setStatus(AppConstent.DEACTIVE); 
 		history.setStatus(AppConstent.DEACTIVE);
 		if (history != null) {
 			historyDao.save(history);
+			ordersDao.save(orders);
 			
+			orderDetails.forEach(each->{
+				each.setStatus(AppConstent.DEACTIVE);
+				orderDetailsDao.save(each);
+			});
 			return "History Succsessfully Deleted . . !";
 		}else {
 			return "History Delete Faild Try Again . . !";
@@ -94,4 +112,25 @@ public class HistoryServiceImpl implements HistoryService{
 		
 		return historyDto;
 	}
+
+	/* (non-Javadoc)
+	 * @see com.foodordersystem.service.HistoryService#getAllHistoryDepartment(java.lang.String)
+	 */
+	@Override
+	public List<HistoryDto> getAllHistoryDepartment(String departmentName) throws Exception {
+		
+		List<History>histories = historyDao.findAllByDepartmentNameAndStatusOrderByDateDesc(departmentName, AppConstent.ACTIVE);
+		ArrayList<HistoryDto>historyDtos = new ArrayList<>();
+		
+		histories.forEach(each->{
+			try {
+				historyDtos.add(getAllHistory(each));
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		});
+		return historyDtos;
+	}
+
+	
 }
